@@ -46,6 +46,7 @@ class ProductResponse(ProductBase):
     """Schema for returning a product"""
     id: int
     created_at: datetime
+    updated_at:datetime
     owner_id: int
     owner : UserResponse
 
@@ -56,7 +57,8 @@ class ProductResponse(ProductBase):
 class UpdatedProductRequest(ProductBase):
     updated_at: Optional[datetime] = Field(None, description="Timestamp of the last update")
 
-
+class IncreaseDecreaseStock(BaseModel):
+    amount: int = Field(..., ge=0, description="Amount to increase the stock by")
 
 
 class Token(BaseModel):

@@ -16,6 +16,12 @@ async def get_products(db=Depends(get_db),search:Optional[str] = "",
     products = db.query(models.Product).filter(models.Product.name.contains(search)).all()
     return products
 
+@router.get("/low_stock", response_model=List[schemas.ProductResponse])
+async def get_low_stock_products(threshold: int = 5, db=Depends(get_db), current_user=Depends(get_current_user)):
+    products = db.query(models.Product).filter(models.Product.quantity <= threshold).all()
+    return products
+
+
 @router.get("/{product_id}",status_code= status.HTTP_200_OK,response_model=schemas.ProductResponse)
 async def get_product_by_id(product_id: int, db=Depends(get_db),
                             current_user: schemas.TokenData = Depends(get_current_user)):
@@ -52,6 +58,40 @@ async def update_product(product_id: int, product: schemas.ProductRequest, db=De
     db.refresh(updated_product)
     return updated_product
 
+@router.patch("/{product_id}/increase", status_code=status.HTTP_200_OK,
+              response_model=schemas.ProductResponse)
+async def increase_stock(product_id:int,
+                         request: schemas.IncreaseDecreaseStock,
+                         db=Depends(get_db),
+                         current_user: schemas.TokenData = Depends(get_current_user)):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if product is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+    if product.owner_id != current_user.user_id and current_user.role != "admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to update this product")
+    product.quantity += request.amount
+    db.commit()
+    db.refresh(product)
+    return product
+
+@router.patch("/{product_id}/decrease", status_code=status.HTTP_200_OK,
+              response_model=schemas.ProductResponse)
+async def decrease_stock(product_id:int,
+                         request: schemas.IncreaseDecreaseStock,
+                         db=Depends(get_db),
+                         current_user: schemas.TokenData = Depends(get_current_user)):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if product is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+    if product.owner_id != current_user.user_id and current_user.role != "admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to update this product")
+    if product.quantity < request.amount:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Insufficient stock to decrease")
+    product.quantity -= request.amount
+    db.commit()
+    db.refresh(product)
+    return product
+
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_product(product_id: int, db=Depends(get_db),
                          current_user: schemas.TokenData = Depends(get_current_user),
@@ -64,8 +104,6 @@ async def delete_product(product_id: int, db=Depends(get_db),
 
     if product.owner_id != current_user.user_id and current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to delete this product")
-
-
 
     db.delete(product)
     db.commit()
