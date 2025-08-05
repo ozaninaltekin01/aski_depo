@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDE & OS
+*.swp
+.DS_Store
+.idea/
+.vscode/
+
+# Environment variables
+.env
+
+# Databases
+*.db
+*.sqlite3
+
+# Logs & temp files
+*.log
+*.tmp
+*.bak
+
+# Test & coverage
+.coverage
+htmlcov/
+.tox/
+.cache/
+pytest_cache/
+
