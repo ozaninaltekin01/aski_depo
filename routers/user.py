@@ -33,7 +33,7 @@ async def get_all_users(db=Depends(get_db),
     return users
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
+@router.post("/register", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 async def user_create(user: schemas.UserRequest,db = Depends(get_db)):
 
     user.password = utils.hash(user.password)
