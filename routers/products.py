@@ -10,11 +10,29 @@ router = APIRouter(
     tags=["products"]
 )
 
-@router.get("/",response_model=List[schemas.ProductResponse],status_code=status.HTTP_200_OK)
-async def get_products(db=Depends(get_db),search:Optional[str] = "",
-                       current_user: schemas.TokenData = Depends(get_current_user)):
-    products = db.query(models.Product).filter(models.Product.name.contains(search)).all()
+@router.get("/", response_model=List[schemas.ProductResponse], status_code=status.HTTP_200_OK)
+async def get_products(
+    db=Depends(get_db),
+    search: Optional[str] = "",
+    current_user: schemas.TokenData = Depends(get_current_user)
+):
+    query = db.query(models.Product)
+
+    # Kullanıcı rolüne göre filtreleme
+    if current_user.role == "user":
+        query = query.filter(models.Product.owner_id == current_user.user_id)
+
+    # Search parametresi varsa onu da filtrele
+    if search:
+        query = query.filter(models.Product.name.contains(search))
+
+    products = query.all()
+
+    if not products:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No products found")
+
     return products
+
 
 @router.get("/low_stock", response_model=List[schemas.ProductResponse])
 async def get_low_stock_products(threshold: int = 5, db=Depends(get_db), current_user=Depends(get_current_user)):

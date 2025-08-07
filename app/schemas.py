@@ -24,6 +24,7 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
     created_at: datetime
+    role:str
 
 
     class Config:
@@ -31,6 +32,15 @@ class UserResponse(BaseModel):
 
 class AdminResponse(UserResponse):
     role:str
+
+class AdminUpdateUser(BaseModel):
+    email: Optional[EmailStr] = None
+    username: Optional[str] = None
+    password: Optional[str] = None
+    role: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 class ProductBase(BaseModel):
 
