@@ -50,6 +50,10 @@ export default function Layout({ children, withNav = true }) {
               <a href="/profile" className="px-3 py-2 rounded-lg hover:bg-slate-100 transition">
                 Profil
               </a>
+              <a href="/dashboard" className="px-3 py-2 rounded-lg hover:bg-slate-100 transition">
+                Dashboard
+              </a>
+
 
               {user?.role === "admin" && (
                 <>

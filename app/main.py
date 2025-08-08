@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from . import models
 from app.database import engine
-from routers import products,auth,user,logs
+from routers import products,auth,user,logs,stats
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -26,6 +26,7 @@ app.include_router(products.router)
 app.include_router(auth.router)
 app.include_router(user.router)
 app.include_router(logs.router)
+app.include_router(stats.router)
 
 @app.get("/")
 async def root():

@@ -181,6 +181,52 @@ async def delete_product(product_id: int, db=Depends(get_db),
     db.add(log)
     db.commit()
 
+@router.get("/paged", response_model=schemas.PagedProductsResponse, status_code=status.HTTP_200_OK)
+async def get_products_paged(
+    db=Depends(get_db),
+    search: Optional[str] = "",
+    page: int = 1,
+    page_size: int = 10,
+    sort_by: Optional[str] = "created_at",  # id | name | quantity | created_at | updated_at
+    sort_dir: Optional[str] = "desc",       # asc | desc
+    current_user: schemas.TokenData = Depends(get_current_user),
+):
+    if page < 1:
+        page = 1
+    if page_size < 1 or page_size > 100:
+        page_size = 10
+
+    query = db.query(models.Product)
+
+    # rol filtresi
+    if current_user.role == "user":
+        query = query.filter(models.Product.owner_id == current_user.user_id)
+
+    # arama
+    if search:
+        query = query.filter(models.Product.name.contains(search))
+
+    # toplam
+    total = query.count()
+
+    # sıralama
+    sort_map = {
+        "id": models.Product.id,
+        "name": models.Product.name,
+        "quantity": models.Product.quantity,
+        "created_at": models.Product.created_at,
+        "updated_at": models.Product.updated_at,
+    }
+    col = sort_map.get(sort_by, models.Product.created_at)
+    if (sort_dir or "").lower() == "asc":
+        query = query.order_by(col.asc())
+    else:
+        query = query.order_by(col.desc())
+
+    items = query.offset((page - 1) * page_size).limit(page_size).all()
+    return {"items": items, "total": total, "page": page, "page_size": page_size}
+
+
 
 
 

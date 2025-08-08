@@ -1,6 +1,9 @@
 from typing import Optional
 from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
+from typing import List, Optional
+from datetime import date
+
 
 class UserBase(BaseModel):
     email: EmailStr = Field(..., description="User's email address")
@@ -61,9 +64,6 @@ class ProductResponse(ProductBase):
     owner : UserResponse
 
 
-    class Config:
-        from_attributes = True  # Allows Pydantic to work with SQLAlchemy models
-
 class UpdatedProductRequest(ProductBase):
     updated_at: Optional[datetime] = Field(None, description="Timestamp of the last update")
 
@@ -90,3 +90,32 @@ class LogResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+
+
+
+
+class PagedProductsResponse(BaseModel):
+    items: List[ProductResponse]
+    total: int
+    page: int
+    page_size: int
+
+class StatsSection(BaseModel):
+    all: int
+    mine: int
+    threshold: Optional[int] = None
+
+class StatsResponse(BaseModel):
+    totals: StatsSection
+    low_stock: StatsSection
+    added_today: StatsSection
+
+class DailyStat(BaseModel):
+    date: str  # 'YYYY-MM-DD'
+    count_all: int
+    count_mine: int
+
+    class Config:
+        from_attributes = True  # Allows Pydantic to work with SQLAlchemy models

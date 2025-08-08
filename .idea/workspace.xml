@@ -5,18 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97d4e610-fe31-4c86-ae90-527b2ed946da" name="Changes" comment="frontend updates">
-      <change afterPath="$PROJECT_DIR$/frontend/src/Layout.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Logs.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/logs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Dashboard.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routers/stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AddProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AddProduct.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AdminUsers.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AdminUsers.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Layout.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/products.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/products.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +113,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754563128490</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="frontend updates">
+      <option name="closed" value="true" />
+      <created>1754642238809</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1754642238809</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
