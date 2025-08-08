@@ -30,3 +30,15 @@ class User(Base):
     role = Column(String(50), nullable=False, default="user")
 
     products = relationship("Product", back_populates="owner", cascade="all, delete-orphan")
+
+class Log(Base):
+    __tablename__ = "logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    action = Column(String(50), nullable=False)
+    entity = Column(String(50), nullable=False)
+    entity_id = Column(Integer, nullable=True)
+    timestamp = Column(DateTime, server_default=func.now(), nullable=False)
+
+    user = relationship("User")

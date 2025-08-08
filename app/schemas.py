@@ -79,3 +79,14 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     user_id: Optional[int] = None
     role: Optional[str] = None
+
+class LogResponse(BaseModel):
+    id: int
+    user_id: int
+    action: str
+    entity: str
+    entity_id: Optional[int] = None
+    timestamp: datetime
+
+    class Config:
+        from_attributes = True

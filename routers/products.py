@@ -4,6 +4,7 @@ from app import models
 from app import schemas
 from typing import List, Optional
 from app.oauth2 import get_current_user
+from app.models import Log
 
 router = APIRouter(
     prefix="/products",
@@ -56,6 +57,17 @@ async def create_product(product: schemas.ProductRequest, db=Depends(get_db),
     db.add(new_product)
     db.commit()
     db.refresh(new_product)
+
+    # In create_product endpoint, after commit & refresh:
+    new_log = Log(
+        user_id=current_user.user_id,
+        action="create_product",
+        entity="product",
+        entity_id=new_product.id
+    )
+    db.add(new_log)
+    db.commit()
+
     return new_product
 
 @router.put("/{product_id}",status_code=status.HTTP_200_OK,response_model=schemas.UpdatedProductRequest)
@@ -74,6 +86,17 @@ async def update_product(product_id: int, product: schemas.ProductRequest, db=De
 
     db.commit()
     db.refresh(updated_product)
+
+    # In update_product endpoint, after commit & refresh:
+    log = Log(
+        user_id=current_user.user_id,
+        action="update_product",
+        entity="product",
+        entity_id=updated_product.id
+    )
+    db.add(log)
+    db.commit()
+
     return updated_product
 
 @router.patch("/{product_id}/increase", status_code=status.HTTP_200_OK,
@@ -90,6 +113,17 @@ async def increase_stock(product_id:int,
     product.quantity += request.amount
     db.commit()
     db.refresh(product)
+
+    # In increase_stock endpoint, after commit & refresh:
+    log = Log(
+        user_id=current_user.user_id,
+        action="increase_stock",
+        entity="product",
+        entity_id=product.id
+    )
+    db.add(log)
+    db.commit()
+
     return product
 
 @router.patch("/{product_id}/decrease", status_code=status.HTTP_200_OK,
@@ -108,6 +142,17 @@ async def decrease_stock(product_id:int,
     product.quantity -= request.amount
     db.commit()
     db.refresh(product)
+
+    # In decrease_stock endpoint, after commit & refresh:
+    log = Log(
+        user_id=current_user.user_id,
+        action="decrease_stock",
+        entity="product",
+        entity_id=product.id
+    )
+    db.add(log)
+    db.commit()
+
     return product
 
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -125,3 +170,24 @@ async def delete_product(product_id: int, db=Depends(get_db),
 
     db.delete(product)
     db.commit()
+
+    # In delete_product endpoint, after db.delete & db.commit:
+    log = Log(
+        user_id=current_user.user_id,
+        action="delete_product",
+        entity="product",
+        entity_id=product.id
+    )
+    db.add(log)
+    db.commit()
+
+
+
+
+
+
+
+
+
+
+
