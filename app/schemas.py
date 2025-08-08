@@ -50,6 +50,7 @@ class ProductBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=100, description="Name of the product")
     description: Optional[str] = Field(None, max_length=500, description="Description of the product")
     quantity: int = Field(..., ge=0, description="Quantity of the product in stock")
+    category:Optional[str] = Field(None, max_length=100, description="Category of the product")
 
 class ProductRequest(ProductBase):
     """Schema for creating a product"""

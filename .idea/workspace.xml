@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97d4e610-fe31-4c86-ae90-527b2ed946da" name="Changes" comment="frontend updates">
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Dashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/stats.py" afterDir="false" />
+    <list default="true" id="97d4e610-fe31-4c86-ae90-527b2ed946da" name="Changes" comment="dashboard feature added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/AddProduct.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/AddProduct.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/products.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/products.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +120,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754642238809</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="dashboard feature added">
+      <option name="closed" value="true" />
+      <created>1754649468897</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1754649468897</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -129,6 +136,7 @@
     <MESSAGE value="updates" />
     <MESSAGE value="updates and added frontend" />
     <MESSAGE value="frontend updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="frontend updates" />
+    <MESSAGE value="dashboard feature added" />
+    <option name="LAST_COMMIT_MESSAGE" value="dashboard feature added" />
   </component>
 </project>

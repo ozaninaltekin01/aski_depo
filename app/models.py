@@ -11,6 +11,7 @@ class Product(Base):
     name = Column(String(100), index=True, nullable=False)
     description = Column(String(255), nullable=True)
     quantity = Column(Integer, nullable=False)
+    category = Column(String(100),index=True, nullable=False)
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)

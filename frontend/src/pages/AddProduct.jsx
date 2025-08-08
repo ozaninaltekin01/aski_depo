@@ -1,12 +1,29 @@
 // src/pages/AddProduct.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "../Layout";
 
 export default function AddProduct() {
-  const [form, setForm] = useState({ name: "", quantity: "", description: "" });
+  const [form, setForm] = useState({ name: "", quantity: "", description: "", category: "" });
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
+  const [categories, setCategories] = useState([]);
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const loadCats = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/products/categories", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCategories(res.data || []);
+      } catch (_e) {
+        // kategori yoksa sorun değil
+      }
+    };
+    loadCats();
+  }, [token]);
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -15,11 +32,11 @@ export default function AddProduct() {
     setErr("");
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
       await axios.post("http://localhost:8000/products", {
         name: form.name.trim(),
         description: form.description?.trim() || null,
         quantity: parseInt(form.quantity || "0", 10),
+        category: form.category?.trim() || null,
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -75,6 +92,31 @@ export default function AddProduct() {
           </div>
 
           <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Kategori</label>
+            <div className="flex gap-2">
+              <select
+                className="flex-1 rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                value={form.category}
+                onChange={(e) => setForm({ ...form, category: e.target.value })}
+              >
+                <option value="">— Seç / Yaz —</option>
+                {categories.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+              <input
+                type="text"
+                name="category"
+                value={form.category}
+                onChange={onChange}
+                placeholder="Yeni kategori yaz"
+                className="flex-1 rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+              />
+            </div>
+            <p className="text-xs text-slate-500 mt-1">İstersen mevcut kategorilerden seç, istersen yeni yaz.</p>
+          </div>
+
+          <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Açıklama</label>
             <textarea
               name="description"
@@ -87,18 +129,11 @@ export default function AddProduct() {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-2">
-            <a
-              href="/products"
-              className="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 transition"
-            >
-              İptal
-            </a>
+            <a href="/products" className="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 transition">İptal</a>
             <button
               type="submit"
               disabled={loading}
-              className={`px-4 py-2 rounded-lg text-white transition shadow-sm ${
-                loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"
-              }`}
+              className={`px-4 py-2 rounded-lg text-white transition shadow-sm ${loading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"}`}
             >
               {loading ? "Kaydediliyor…" : "Kaydet"}
             </button>
@@ -108,6 +143,7 @@ export default function AddProduct() {
     </Layout>
   );
 }
+
 
 
 
